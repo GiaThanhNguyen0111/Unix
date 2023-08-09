@@ -1,5 +1,5 @@
 <?php
-class CustomerController extends BaseController {
+class OrderController extends BaseController {
     public function listAction() {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -7,7 +7,7 @@ class CustomerController extends BaseController {
 
         if (strtoupper($requestMethod) == "GET") {
             try {
-                $customerModel = new CustomerModel();
+                $orderModel = new OrderModel();
 
                 $intLimit = 10;
 
@@ -15,8 +15,8 @@ class CustomerController extends BaseController {
                     $intLimit = $arrQueryStringParams['limit'];
                 }
 
-                $arrCustomer = $customerModel -> getCustomers($intLimit);
-                $responseData = json_encode($arrCustomer);
+                $arrOrder = $orderModel -> getOrders($intLimit);
+                $responseData = json_encode($arrOrder);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -41,7 +41,7 @@ class CustomerController extends BaseController {
 
     }
 
-    public function signUpAction() {
+    public function createOrderAction() {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -58,9 +58,9 @@ class CustomerController extends BaseController {
                 echo $email;
 
                 try {
-                    $customerModel = new CustomerModel();
+                    $orderModel = new OrderModel();
 
-                    $customerModel->createCustomer($name, $email, $address, $phoneNumber, $password);
+                    $orderModel->createOrder($name, $email, $address, $phoneNumber, $password);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -73,7 +73,7 @@ class CustomerController extends BaseController {
         }
     }
 
-    public function updateInfoAction () {
+    public function updateOrderAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -90,9 +90,9 @@ class CustomerController extends BaseController {
                 echo $email;
 
                 try {
-                    $customerModel = new CustomerModel();
+                    $orderModel = new OrderModel();
 
-                    $customerModel->updateCustomerInfo($name, $email, $address, $phoneNumber, $password);
+                    $orderModel->updateOrderInfo($name, $email, $address, $phoneNumber, $password);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -117,9 +117,9 @@ class CustomerController extends BaseController {
                 echo $email;
 
                 try {
-                    $customerModel = new CustomerModel();
+                    $orderModel = new OrderModel();
 
-                    $customerModel->deleteCustomer($email);
+                    $orderModel->deleteOrder($email);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -139,13 +139,12 @@ class CustomerController extends BaseController {
 
         if ($requestMethod == "POST") {
             if (count($_POST)) {
-                $email = $_POST['email'];
-                echo $email;
+                $orderId= $_POST['order_id'];
 
                 try {
-                    $customerModel = new CustomerModel();
+                    $orderModel = new OrderModel();
 
-                    $customerModel->findByEmail($email);
+                    $orderModel->findById($orderId);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }

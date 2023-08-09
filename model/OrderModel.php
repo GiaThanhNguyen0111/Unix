@@ -18,12 +18,12 @@ class OrderModel extends Database
         ", ["ssss",$customerId, $totalAmount, $status, $orderId]); 
     }
 
-    public function deleteOrder($customerId, $totalAmount, $status) {
-        $this->doQuery("INSERT INTO orderlist (customer_id, total_amount, status) VALUES (?,?,?)", ["sssss",$customerId, $totalAmount, $status]);
+    public function deleteOrder($orderId) {
+        $this->doQuery("DELETE FROM orderlist WHERE order_id = ?", ["s", $orderId]);
     }
 
-    public function findById($customerId, $totalAmount, $status) {
-        $this->doQuery("INSERT INTO customer (customer_id, total_amount, status) VALUES (?,?,?)", ["sssss",$customerId, $totalAmount, $status]);
+    public function findById($orderId) {
+        $this->doQuery("SELECT * FROM ordelist WHERE order_id = ? ", ["s",$orderId]);
     }
 }
 ?>

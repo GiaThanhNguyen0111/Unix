@@ -15,15 +15,15 @@ class CustomerModel extends Database
         $this->doQuery("UPDATE customer 
         SET customer_name = ? , email = ? , address = ?, phone_number = ?, password = ?
         WHERE email = ?
-        ", ["sssss",$name, $email, $address, $phoneNumber, $password, $email]);
+        ", ["sssss",$name, $email, $address, $phoneNumber, $password, $email]); 
     }
 
-    public function deleteCustomer($name, $email, $address, $phoneNumber,$password) {
-        $this->doQuery("INSERT INTO customer (customer_name, email, address, phone_number, password) VALUES (?,?,?,?,?)", ["sssss",$name, $email, $address, $phoneNumber, $password]);
+    public function deleteCustomer($email) {
+        $this->doQuery("DELETE FROM customer WHERE email = ? ", ["s",$email]);
     }
 
-    public function findById($name, $email, $address, $phoneNumber,$password) {
-        $this->doQuery("INSERT INTO customer (customer_name, email, address, phone_number, password) VALUES (?,?,?,?,?)", ["sssss",$name, $email, $address, $phoneNumber, $password]);
+    public function findByEmail( $email ) {
+        $this->doQuery("SELECT * FROM customer WHERE email = ?", ["s", $email]);
     }
 }
 ?>

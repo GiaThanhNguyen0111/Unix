@@ -18,12 +18,12 @@ class StoreModel extends Database
         ", ["sss",$name, $phoneNumber, $address, $storeId]); 
     }
 
-    public function deleteStore($name, $phoneNumber, $address) {
-        $this->doQuery("INSERT INTO customer (name, phone_number, address) VALUES (?,?,?)", ["sss",$name, $phoneNumber, $address]);
+    public function deleteStore($storeId) {
+        $this->doQuery("DELETE FROM store WHERE store_id = ?", ["s",$storeId]);
     }
 
-    public function findById($name, $phoneNumber, $address) {
-        $this->doQuery("INSERT INTO customer (customer_name, email, address, phone_number, password) VALUES (?,?,?)", ["sss",$name, $phoneNumber, $address]);
+    public function findById($storeId) {
+        $this->doQuery("SELECT * FROM store WHERE store_id = ?", ["s",$storeId]);
     }
 }
 ?>

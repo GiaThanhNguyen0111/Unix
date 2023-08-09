@@ -18,12 +18,12 @@ class ProductModel extends Database
         ", ["sssss",$storeId, $productName, $description, $price, $quantity, $productId]); 
     }
 
-    public function deleteProduct($storeId, $productName, $description, $price, $quantity) {
-        $this->doQuery("INSERT INTO customer (store_id, product_name. description, price, quantity) VALUES (?,?,?,?,?)", ["sssss",$storeId, $productName, $description, $price, $quantity]);
+    public function deleteProduct($productId) {
+        $this->doQuery("DELETE FROM product WHERE product_id = ?", ["s", $productId]);
     }
 
-    public function findById($storeId, $productName, $description, $price, $quantity) {
-        $this->doQuery("INSERT INTO customer (store_id, product_name, description, price, quantity) VALUES (?,?,?,?,?)", ["sssss",$storeId, $productName, $description, $price, $quantity]);
+    public function findByName($name) {
+        $this->doQuery("SELECT * FROM product WHERE product_name = ? ", ["s", $name]);
     }
 }
 ?>
