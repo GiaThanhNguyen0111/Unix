@@ -1,5 +1,5 @@
 <?php
-class OrderController extends BaseController {
+class StoreController extends BaseController {
     public function listAction() {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
