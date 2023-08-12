@@ -8,7 +8,9 @@ class OrderModel extends Database
     }
 
     public function createOrder($customerId, $totalAmount, $status) {
-        $this->doQuery("INSERT INTO orderlist (customer_id, total_amount, status) VALUES (?,?,?)", ["sss",$customerId, $totalAmount, $status]);
+        $insertedId = $this->doQuery("INSERT INTO orderlist (customer_id, total_amount, status) VALUES (?,?,?)", ["sss",$customerId, $totalAmount, $status]);
+
+        return $insertedId;
     }
     
     public function updateOrderStatusInfo($status, $orderId) {

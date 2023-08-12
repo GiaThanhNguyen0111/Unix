@@ -49,20 +49,21 @@ class OrderController extends BaseController {
         if ($requestMethod == "POST") {
             if (count($_POST)) {
                 // customer Id
-                $customerId = $_SESSION['customer_id'];
+                $customerId = $_POST['customer_id'];
                 // order Id
 
                 // list of Product Id and quantity
                 $listOfProductId = $_POST['list_of_product'];
+
                 //status
-                $status  = $this->isPaid() ? "COMPLETED" : "PENDING";
+                $status  = $this->isPaid() ? 1 : 0;
                 // totalAmount
-                $totalAmount = $this->calcTotalAmount();
+                $totalAmount = $_POST['total_amount'];
 
                 try {
                     $orderModel = new OrderModel();
 
-                    $orderModel->createOrder($customerId, $totalAmount, $status);
+                    $orderId = $orderModel->createOrder($customerId, $totalAmount, $status);
 
                     $orderProductModel = new OrderProductModel();
                     
@@ -206,7 +207,7 @@ class OrderController extends BaseController {
     }
 
     private function calcTotalAmount () {
-        return null;
+        return 100000;
     }
 
     private function isPaid() {

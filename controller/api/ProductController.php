@@ -4,7 +4,7 @@ class ProductController extends BaseController {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
-
+        echo $arrQueryStringParams;
         if (strtoupper($requestMethod) == "GET") {
             try {
                 $productModel = new ProductModel();
@@ -167,7 +167,6 @@ class ProductController extends BaseController {
         if ($requestMethod == "POST") {
             if (count($_POST)) {
                 $name = $_POST['product_name'];
-                echo $name;
 
                 try {
                     $productModel = new ProductModel();
@@ -204,20 +203,15 @@ class ProductController extends BaseController {
         $arrQueryStringParams =$this->getQueryStringParams();
 
         if ($requestMethod == "POST") {
-            if (count($_POST)) {
+            $storeName = $_POST['store_name'];
 
-                try {
-                    if (isset ($arrQueryStringParams['storeName']) && $arrQueryStringParams['storeName']) {
-                        $storeName = $arrQueryStringParams['storeName'];
-                    }
-                    $productModel = new ProductModel();
+            try {
+                $productModel = new ProductModel();
 
-                    $result = $productModel->findByName($storeName);
-                    $resBody = json_encode($result);
-                } catch (Error $e) {
-                    $e -> getMessage();
-                }
-                
+                $result = $productModel->findByStore($storeName);
+                $resBody = json_encode($result);
+            } catch (Error $e) {
+                $e -> getMessage();
             }
         } else {
             $strErrorDesc = 'Method not supported';

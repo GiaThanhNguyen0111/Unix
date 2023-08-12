@@ -17,28 +17,30 @@ if (!(isset($uri[2]))) {
     exit();
 }
 
-if (isset($uri[2]) == "customer") {
+echo $uri[2] . "\n";
+
+if ($uri[2] == "customer") {
     // CustomerController
     $objFeedController = new CustomerController();
     
     $strMethodName = $uri[3] . 'Action';
     
     $objFeedController->{$strMethodName}();
-} elseif (isset($uri[2]) == "order") {
+} elseif ($uri[2] == "order") {
     // Order Controller
     $objFeedController = new OrderController();
     
     $strMethodName = $uri[3] . 'Action';
     
     $objFeedController->{$strMethodName}();
-} elseif (isset($uri[2]) == "product") {
+} elseif ($uri[2] == "product") {
     // Product Controller
     $objFeedController = new ProductController();
     
     $strMethodName = $uri[3] . 'Action';
     
     $objFeedController->{$strMethodName}();
-} elseif (isset($uri[2]) == "store") {
+} elseif ($uri[2] == "store") {
     //Store Controller
     $objFeedController = new StoreController();
     

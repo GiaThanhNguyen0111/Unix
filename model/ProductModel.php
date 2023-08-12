@@ -28,7 +28,7 @@ class ProductModel extends Database
 
     public function findByStore($storeName) {
         return $this->select("
-        SELECT p.description, p.price, p.quantity,p.product_id, s.name
+        SELECT p.product_id, p.product_name, p.description,p.quantity
         FROM product p 
         LEFT JOIN store s
         ON p.store_id = s.store_id

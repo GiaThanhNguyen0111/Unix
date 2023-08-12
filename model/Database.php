@@ -28,6 +28,24 @@ class Database
         return false;
     }
 
+    public function doQueryTransaction($listQuery = [], $params = []) {
+        try {
+            $this->connection->begin_transaction();
+
+            for ($i =0 ; $i < $listQuery; $i++) {
+                if ($i == 0 ) {
+                    $listQuery[$i] == $this->bindQuery($listQuery[$i], $params);
+                }
+                $this->connection->query($listQuery[$i]);
+            }
+
+            $this->connection->commit();
+        } catch (Error $e) {
+            $this->connection->rollback();
+            $e->getMessage();
+        }
+    }
+
     public function doQuery($query, $params = []) {
         try {
             $stmt = $this->connection->prepare($query);
@@ -37,7 +55,22 @@ class Database
             if ($params) {
                 $stmt->bind_param(...$params);
                 $stmt->execute();
-                print("INSERT CUSTOMER SUCESSFULLY");
+                return $stmt-> insert_id;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e -> getMessage());
+        }
+    }
+
+    private function bindQuery($query, $params = []) {
+        try {
+            $stmt = $this->connection->prepare($query);
+            if ($stmt == false) {
+                throw new Exception("Unable to do prepared statement: " . $query);
+            }
+            if ($params) {
+                $stmt->bind_param(...$params);
+                return $stmt;
             }
         } catch (Exception $e) {
             throw new Exception($e -> getMessage());

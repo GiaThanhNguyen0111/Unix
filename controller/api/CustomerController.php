@@ -1,4 +1,5 @@
 <?php
+session_start();
 class CustomerController extends BaseController {
 
     public function listAction() {
@@ -55,8 +56,7 @@ class CustomerController extends BaseController {
                 $phoneNumber = $_POST['phoneNumber'];
                 $password = $_POST['password'];
 
-                echo $name;
-                echo $email;
+              
 
                 try {
                     $customerModel = new CustomerModel();
@@ -98,8 +98,7 @@ class CustomerController extends BaseController {
                 $phoneNumber = $_POST['phoneNumber'];
                 $password = $_POST['password'];
 
-                echo $name;
-                echo $email;
+                
 
                 try {
                     $customerModel = new CustomerModel();
@@ -137,7 +136,7 @@ class CustomerController extends BaseController {
             if (count($_POST)) {
                 $email = $_POST['email'];
                 
-                echo $email;
+            
 
                 try {
                     $customerModel = new CustomerModel();
@@ -173,8 +172,7 @@ class CustomerController extends BaseController {
         if ($requestMethod == "POST") {
             if (count($_POST)) {
                 $email = $_POST['email'];
-                echo $email;
-
+               
                 try {
                     $customerModel = new CustomerModel();
 
@@ -211,8 +209,6 @@ class CustomerController extends BaseController {
             if (count($_POST)) {
                 $email = $_POST['email'];
                 $password = $_POST['password'];
-                echo $email . "\n";
-                echo $password . "\n";
 
                 try {
                     $customerModel = new CustomerModel();
@@ -226,6 +222,7 @@ class CustomerController extends BaseController {
                         $_SESSION["loggedIn"] = true;
                         $_SESSION["email"] = $email;
                         $_SESSION["customer_id"] = $customerId;
+
                     } else {
                         $isLoggedIn = false;
                     }
@@ -242,7 +239,8 @@ class CustomerController extends BaseController {
         }
         if (!$strErrorDesc) {
             $this->sendOutput(
-                json_encode(array("isLoggedIn"=> $isLoggedIn)),
+                json_encode(array("isLoggedIn"=> $isLoggedIn,
+                                    "customerId" => $customerId)),
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {

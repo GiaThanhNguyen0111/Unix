@@ -1,9 +1,14 @@
-USE ecommerce1;
-
-INSERT INTO customer(customer_name, email, phone_number, address)
-VALUES(
-    "Thanh Nguyen",
-    "thanhnguyen@gmail.com",
-    "090909090909",
-    "PDC street"
-)
+INSERT INTO product (
+    store_id,
+    product_name,
+    description,
+    price,
+    quantity
+  )
+VALUES (
+    1,
+    "Do Long Dao",
+    'Mot cai Do Long Dao dep',
+    '100000',
+    50
+  );
