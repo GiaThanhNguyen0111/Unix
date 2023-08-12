@@ -130,7 +130,7 @@ class OrderController extends BaseController {
         }
     }
 
-    public function deleteOrdersAction () {
+    public function deleteOrderAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();

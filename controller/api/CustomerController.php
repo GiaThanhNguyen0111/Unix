@@ -218,11 +218,7 @@ class CustomerController extends BaseController {
                     $customerId = $result['customer_id'];
 
                     if ($this->checkPassword($email, $password) == 1 && $this->checkEmail($email, $password) == 1) {
-                        session_start();
-                        $_SESSION["loggedIn"] = true;
-                        $_SESSION["email"] = $email;
-                        $_SESSION["customer_id"] = $customerId;
-
+                        $isLoggedIn = true;
                     } else {
                         $isLoggedIn = false;
                     }
@@ -257,7 +253,6 @@ class CustomerController extends BaseController {
         $isLoggedIn = true;
 
         if ($requestMethod == "GET") {
-                session_destroy();
                 $isLoggedIn = false;
         } else {
             $strErrorDesc = 'Method not supported';

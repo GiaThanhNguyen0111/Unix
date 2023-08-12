@@ -41,7 +41,7 @@ class StoreController extends BaseController {
 
     }
 
-    public function createOrderAction() {
+    public function createStoreAction() {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -68,7 +68,7 @@ class StoreController extends BaseController {
         }
     }
 
-    public function updateOrderAction () {
+    public function updateStoreAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -97,7 +97,7 @@ class StoreController extends BaseController {
         }
     }
 
-    public function deleteCustomerAction () {
+    public function deleteStoreAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -122,7 +122,7 @@ class StoreController extends BaseController {
         }
     }
 
-    public function findByEmailAction() {
+    public function findByIdAction() {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();

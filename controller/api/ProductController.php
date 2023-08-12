@@ -41,7 +41,7 @@ class ProductController extends BaseController {
 
     }
 
-    public function createOrderAction() {
+    public function createProductAction() {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -80,7 +80,7 @@ class ProductController extends BaseController {
             );
     }
     }
-    public function updateOrderAction () {
+    public function updateProductAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -122,7 +122,7 @@ class ProductController extends BaseController {
         }
     }
 
-    public function deleteCustomerAction () {
+    public function deleteProductAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
