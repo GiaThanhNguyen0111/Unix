@@ -23,7 +23,7 @@ class CustomerModel extends Database
     }
 
     public function findByEmail( $email ) {
-        $this->doQuery("SELECT * FROM customer WHERE email = ?", ["s", $email]);
+        return $this->select("SELECT * FROM customer WHERE email = ?", ["s", $email]);
     }
 }
 ?>

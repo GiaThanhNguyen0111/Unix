@@ -11,11 +11,11 @@ class OrderModel extends Database
         $this->doQuery("INSERT INTO orderlist (customer_id, total_amount, status) VALUES (?,?,?)", ["sss",$customerId, $totalAmount, $status]);
     }
     
-    public function updateOrderInfo($orderId, $customerId, $totalAmount, $status) {
+    public function updateOrderStatusInfo($status, $orderId) {
         $this->doQuery("UPDATE orderlist 
-        SET customer_id = ? , total_amount = ? , status = ?
+        SET status = ?
         WHERE order_id = ?
-        ", ["ssss",$customerId, $totalAmount, $status, $orderId]); 
+        ", ["ss",$status, $orderId]); 
     }
 
     public function deleteOrder($orderId) {
@@ -23,7 +23,7 @@ class OrderModel extends Database
     }
 
     public function findById($orderId) {
-        $this->doQuery("SELECT * FROM ordelist WHERE order_id = ? ", ["s",$orderId]);
+        $this->select("SELECT * FROM ordelist WHERE order_id = ? ", ["s",$orderId]);
     }
 }
 ?>

@@ -67,8 +67,19 @@ class ProductController extends BaseController {
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
         }
-    }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode(array("isCreated" => true)),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
 
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                "isCreated" => false)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+    }
+    }
     public function updateOrderAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -97,6 +108,18 @@ class ProductController extends BaseController {
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
         }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode(array("isUpdated" => true)),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                "isUpdated" => false)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
     }
 
     public function deleteCustomerAction () {
@@ -106,14 +129,12 @@ class ProductController extends BaseController {
 
         if ($requestMethod == "POST") {
             if (count($_POST)) {
-                $email = $_POST['email'];
-                
-                echo $email;
+                $productId = $_POST['product_id'];
 
                 try {
                     $productModel = new ProductModel();
 
-                    $productModel->deleteProduct($email);
+                    $result = $productModel->deleteProduct($productId);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -123,6 +144,18 @@ class ProductController extends BaseController {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
+        }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode(array("isDeleted" => true)),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                'isDeleted' => false)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 
@@ -139,7 +172,9 @@ class ProductController extends BaseController {
                 try {
                     $productModel = new ProductModel();
 
-                    $productModel->findByName($name);
+                    $result = $productModel->findByName($name);
+
+                    $resBody = json_encode($result);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -149,6 +184,56 @@ class ProductController extends BaseController {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
+        }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $resBody,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    }
+
+    public function findByStoreAction() {
+        $strErrorDesc = "";
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        $arrQueryStringParams =$this->getQueryStringParams();
+
+        if ($requestMethod == "POST") {
+            if (count($_POST)) {
+
+                try {
+                    if (isset ($arrQueryStringParams['storeName']) && $arrQueryStringParams['storeName']) {
+                        $storeName = $arrQueryStringParams['storeName'];
+                    }
+                    $productModel = new ProductModel();
+
+                    $result = $productModel->findByName($storeName);
+                    $resBody = json_encode($result);
+                } catch (Error $e) {
+                    $e -> getMessage();
+                }
+                
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+
+        }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $resBody,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 

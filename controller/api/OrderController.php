@@ -48,19 +48,26 @@ class OrderController extends BaseController {
 
         if ($requestMethod == "POST") {
             if (count($_POST)) {
-                $name = $_POST['username'];
-                $email = $_POST['email'];
-                $address = $_POST['address'];
-                $phoneNumber = $_POST['phoneNumber'];
-                $password = $_POST['password'];
+                // customer Id
+                $customerId = $_SESSION['customer_id'];
+                // order Id
 
-                echo $name;
-                echo $email;
+                // list of Product Id and quantity
+                $listOfProductId = $_POST['list_of_product'];
+                //status
+                $status  = $this->isPaid() ? "COMPLETED" : "PENDING";
+                // totalAmount
+                $totalAmount = $this->calcTotalAmount();
 
                 try {
                     $orderModel = new OrderModel();
 
-                    $orderModel->createOrder($name, $email, $address, $phoneNumber, $password);
+                    $orderModel->createOrder($customerId, $totalAmount, $status);
+
+                    $orderProductModel = new OrderProductModel();
+                    
+                    $orderProductModel->insertList($listOfProductId, $orderId);
+                    
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -69,30 +76,36 @@ class OrderController extends BaseController {
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode(array("isCreated" => true)),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
 
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                'isCreated' => false)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 
-    public function updateOrderAction () {
+    public function updateOrderStatusAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
 
         if ($requestMethod == "POST") {
             if (count($_POST)) {
-                $name = $_POST['username'];
-                $email = $_POST['email'];
-                $address = $_POST['address'];
-                $phoneNumber = $_POST['phoneNumber'];
-                $password = $_POST['password'];
-
-                echo $name;
-                echo $email;
+                $status = $_POST['status'];
 
                 try {
                     $orderModel = new OrderModel();
-
-                    $orderModel->updateOrderInfo($name, $email, $address, $phoneNumber, $password);
+                    if (isset ($arrQueryStringParams['orderId']) && $arrQueryStringParams['orderId']) {
+                        $orderId = $arrQueryStringParams['orderId'];
+                    }
+                    $orderModel->updateOrderStatusInfo($status, $orderId);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -101,25 +114,36 @@ class OrderController extends BaseController {
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode(array("isUpdated" => true)),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
 
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                'isUpdated' => false)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 
-    public function deleteCustomerAction () {
+    public function deleteOrdersAction () {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
 
         if ($requestMethod == "POST") {
             if (count($_POST)) {
-                $email = $_POST['email'];
+                $orderId = $_POST['order_id'];
                 
-                echo $email;
+                echo $orderId;
 
                 try {
                     $orderModel = new OrderModel();
 
-                    $orderModel->deleteOrder($email);
+                    $orderModel->deleteOrder($orderId);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -130,9 +154,21 @@ class OrderController extends BaseController {
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
         }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode(array("isDeleted" => true)),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                'isDeleted' => false)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
     }
 
-    public function findByEmailAction() {
+    public function findByIdAction() {
         $strErrorDesc = "";
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams =$this->getQueryStringParams();
@@ -144,7 +180,8 @@ class OrderController extends BaseController {
                 try {
                     $orderModel = new OrderModel();
 
-                    $orderModel->findById($orderId);
+                    $result = $orderModel->findById($orderId);
+                    $resBody = json_encode($result);
                 } catch (Error $e) {
                     $e -> getMessage();
                 }
@@ -155,6 +192,25 @@ class OrderController extends BaseController {
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
         }
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $resBody,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    }
+
+    private function calcTotalAmount () {
+        return null;
+    }
+
+    private function isPaid() {
+        return false;
     }
 
 }

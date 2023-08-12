@@ -23,7 +23,7 @@ class StoreModel extends Database
     }
 
     public function findById($storeId) {
-        $this->doQuery("SELECT * FROM store WHERE store_id = ?", ["s",$storeId]);
+        return $this->select("SELECT * FROM store WHERE store_id = ?", ["s",$storeId]);
     }
 }
 ?>
