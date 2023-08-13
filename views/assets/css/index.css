@@ -1,0 +1,11 @@
+.floating-image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 50px; /* Adjust this value as needed */
+}
+
+.floating-image img {
+    width: 100%;
+    height: auto;
+}
