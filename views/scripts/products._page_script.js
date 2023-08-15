@@ -16,3 +16,57 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+const getAllProduct = () => {
+    fetch("http://localhost:80/product/list",
+        {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "GET"
+        }
+    ).then(res => {
+        console.log(res);
+        return res;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+
+const getProductByStoreName = (storeName) => {
+    fetch("http://localhost:80/product/findByStoreName",
+        {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "form-data"
+            },
+            method: "POST",
+            body: storeName
+        }
+    ).then(res => {
+        console.log(res);
+        return res;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+
+const getProductById = (productId) => {
+    fetch("http://localhost:80/product/findById",
+        {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "form-data"
+            },
+            method: "POST",
+            body: productId
+        }
+    ).then(res => {
+        console.log(res);
+        return res;
+    }).catch(e => {
+        console.log(e);
+    });
+}
