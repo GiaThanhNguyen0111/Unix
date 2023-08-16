@@ -1,42 +1,38 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const signUpForm = document.querySelector("#sign-up-form");
-    signUpForm.addEventListener("submit", handleSignUp);
-
-    async function handleSignUp(event) {
-        event.preventDefault();
-
+const handleClick = () => {
         const username = document.getElementById("username").value;
         const email = document.getElementById("email").value;
         const address = document.getElementById("address").value;
         const phoneNumber = document.getElementById("phone").value;
         const password = document.getElementById("password").value;
+        console.log(username);
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("email", email);
+        formData.append("address", address);
+        formData.append("phoneNumber", phoneNumber);
+        formData.append("password", password);
 
-        const signUpData = {
-            username,
-            email,
-            address,
-            phoneNumber,
-            password
-        };
-
-        fetch("http://localhost:80/customer/signUp",
+        fetch("http://localhost:80/index.php/customer/signUp",
             {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
                 method: "POST",
-                body: JSON.stringify(signUpData)
+                body: formData
             }
         ).then(res => {
-            console.log(res);
-            console.log(`Sign up successful as ${username}`);
-            alert(`Sign up successful as ${username}`);
-        }).catch(e => {
+            return res.json();
+            //redirect to product pages.
+        }).then(
+            result => {
+                console.log(result);
+                console.log(`Sign up successful as ${username}`);
+                alert(`Sign up successful as ${username}`);
+                if (result.isLoggedIn === true) {
+                    window.location.replace("http://localhost:80/views/pages/index.html");
+                }
+            }
+        ).catch(e => {
             console.log(e);
         })
-    }
-});
+}
 
 const signIn = (signInData) => {
     fetch("http://localhost:80/customer/signIn",

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/products.css">
 </head>
-<body>
+<body onload="getAllProduct()">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">Ecommerce Store</a>
@@ -30,7 +30,7 @@
   </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container mt-5" id="container-product">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h1 class="text-center mb-4">Products</h1>
@@ -38,12 +38,12 @@
             <div class="input-group mb-3">
                 <input type="text" id="search-input" class="form-control" placeholder="Search for products...">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">Search</button>
+                    <input class="btn btn-primary" type="button" onclick="findByName()" value="Search">
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="inner-container-product">
         <!-- Product Cards -->
         <div class="col-md-4 product-card">
             <div class="card mb-4">

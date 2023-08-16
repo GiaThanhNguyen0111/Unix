@@ -9,7 +9,7 @@
 <body>
     <div class="sign-up-page-container">
         <h1 id="title">Sign Up</h1>
-        <form id='sign-up-form'action="sign-up.php" method="post">
+        <form id='sign-up-form'>
 
             <input type="text" id="username" name="username" placeholder="username" required>
             <input type="email" id="email" name="email" placeholder="email" required>
@@ -17,7 +17,7 @@
             <input type="tel" id="phone" name="phone" placeholder="phone" required>
             <input type="password" class="password" id="password" name="password"  placeholder="password" required>
 
-            <button type="submit" id="sign-up-btn">Sign up</button>
+            <input type="button" id="sign-up-btn" onclick="handleClick()" value="Sign Up">
         </form>
     </div>
     <script src="../scripts/sign_up.js"></script>

@@ -53,7 +53,7 @@ class OrderController extends BaseController {
                 // order Id
 
                 // list of Product Id and quantity
-                $listOfProductId = $_POST['list_of_product'];
+                $listOfProductId = json_decode($_POST['list_of_product']);
 
                 //status
                 $status  = $this->isPaid() ? 1 : 0;

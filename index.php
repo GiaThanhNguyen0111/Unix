@@ -17,7 +17,6 @@ if (!(isset($uri[2]))) {
     exit();
 }
 
-echo $uri[2] . "\n";
 
 if ($uri[2] == "customer") {
     // CustomerController

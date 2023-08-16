@@ -55,12 +55,8 @@ class CustomerController extends BaseController {
                 $address = $_POST['address'];
                 $phoneNumber = $_POST['phoneNumber'];
                 $password = $_POST['password'];
-
-              
-
                 try {
                     $customerModel = new CustomerModel();
-
                     $customerModel->createCustomer($name, $email, $address, $phoneNumber, $password);
                 } catch (Error $e) {
                     $e -> getMessage();
@@ -75,11 +71,12 @@ class CustomerController extends BaseController {
         };
         if (!$strErrorDesc) {
             $this->sendOutput(
-                json_encode(array("data"=> "Log In Successful")),
+                json_encode(array("isLoggedIn"=> true)),
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc,
+                                                "isLoggedIn" => false)), 
             array('Content-Type: application/json', $strErrorHeader)
         );
         }
